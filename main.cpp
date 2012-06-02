@@ -10,7 +10,7 @@ using boost::uint64_t;
 class JavaRandom
 {
 public:
-  JavaRandom( int64_t seed )
+  JavaRandom( int64_t seed = 0 )
   {
     setSeed(seed);
   }
@@ -44,8 +44,7 @@ public:
     {
       bits = next(31);
       val = bits % n;
-    }
-    while (bits - val + (n - 1) < 0);
+    } while (bits - val + (n - 1) < 0);
     return val;
   }
 
@@ -55,6 +54,26 @@ protected:
 
 int main()
 {
+  JavaRandom rnd;
+
+  for (int64_t start = 0; 
+       //start < 1000 * 60 * 60 * 24 * 365 * 40; 
+       start < 1000 * 60 * 60 * 24; 
+       ++start)
+  {
+    rnd.setSeed(start);
+    int nZeroes(0);
+    for (int i = 0; i < 100; ++i)
+    {
+      int32_t const r = rnd.nextInt(int32_t(10000));
+      //std::cout << r << " ";
+      if (r == 0)
+        ++nZeroes;
+    }
+
+    if (nZeroes > 2)
+      std::cout << start << ": " << nZeroes << std::endl;
+  }
 }
 
 // vim: ts=2 sw=2 et:

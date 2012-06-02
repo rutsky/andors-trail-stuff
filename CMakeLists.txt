@@ -1,4 +1,10 @@
 cmake_minimum_required (VERSION 2.6)
 
 project (test-random)
-add_executable(test-random main.cpp)
+
+set (BOOST_COMPONENTS )
+
+find_package (Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
+include_directories (${Boost_INCLUDE_DIRS})
+
+add_executable (test-random main.cpp)
