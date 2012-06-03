@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 #include <boost/cstdint.hpp>
 
@@ -52,18 +53,35 @@ protected:
   int64_t seed_;
 };
 
-int main()
+int main( int argc, char const *argv[] )
 {
   JavaRandom rnd;
 
-  for (int64_t start = 0; 
-       //start < 1000 * 60 * 60 * 24 * 365 * 40; 
-       start < 1000 * 60 * 60 * 24; 
-       ++start)
+  int64_t start = 0;
+  if (argc > 1)
   {
-    rnd.setSeed(start);
+    std::istringstream istr(argv[1]);
+    istr >> start;
+  }
+  int64_t size = 1000 * 60 * 60 * 24;
+  if (argc > 2)
+  {
+    std::istringstream istr(argv[2]);
+    istr >> size;
+  }
+
+  std::cout << "start: " << start << ", size: " << size << std::endl;
+  for (int64_t i = start; 
+       //start < 1000 * 60 * 60 * 24 * 365 * 40; 
+       i < start + size; 
+       ++i)
+  {
+    if (i % (1000 * 60 * 60 * 10) == 0)
+      std::cout << i << std::endl;
+
+    rnd.setSeed(i);
     int nZeroes(0);
-    for (int i = 0; i < 100; ++i)
+    for (int j = 0; j < 30; ++j)
     {
       int32_t const r = rnd.nextInt(int32_t(10000));
       //std::cout << r << " ";
@@ -71,8 +89,8 @@ int main()
         ++nZeroes;
     }
 
-    if (nZeroes > 2)
-      std::cout << start << ": " << nZeroes << std::endl;
+    if (nZeroes >= 3)
+      std::cout << i << ": " << nZeroes << std::endl;
   }
 }
 

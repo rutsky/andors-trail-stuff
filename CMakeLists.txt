@@ -1,10 +1,12 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required(VERSION 2.6)
 
-project (test-random)
+project(test-random)
 
-set (BOOST_COMPONENTS )
+set(BOOST_COMPONENTS )
 
-find_package (Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
-include_directories (${Boost_INCLUDE_DIRS})
+find_package(Boost COMPONENTS ${BOOST_COMPONENTS} REQUIRED)
+include_directories(${Boost_INCLUDE_DIRS})
 
-add_executable (test-random main.cpp)
+set(CMAKE_CXX_FLAGS "-Wall")
+
+add_executable(test-random main.cpp)
